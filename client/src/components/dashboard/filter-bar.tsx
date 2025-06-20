@@ -37,6 +37,8 @@ interface WealthboxUser {
   id: number;  // Wealthbox API returns numeric IDs
   name: string;
   email: string;
+  first_name?: string;
+  last_name?: string;
   account?: number;
   excluded_from_assignments?: boolean;
 }
@@ -160,7 +162,19 @@ export function FilterBar({ user, onFilterChange }: FilterBarProps) {
             <SelectItem value="all">All Advisors</SelectItem>
             {wealthboxUsers.map((wbUser) => (
               <SelectItem key={wbUser.id} value={wbUser.id.toString()}>
-                {wbUser.name}
+                <div className="flex flex-col">
+                  <div className="flex gap-2">
+                    <span className="font-medium">
+                      {wbUser.first_name || wbUser.name?.split(' ')[0] || 'Unknown'} {wbUser.last_name || wbUser.name?.split(' ').slice(1).join(' ') || ''}
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {wbUser.email || 'No email'}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    Role: Financial Advisor
+                  </div>
+                </div>
               </SelectItem>
             ))}
           </SelectContent>
@@ -187,7 +201,8 @@ export function FilterBar({ user, onFilterChange }: FilterBarProps) {
     if (selectedWealthboxUser) {
       const wbUser = wealthboxUsers.find(u => u.id === selectedWealthboxUser);
       if (wbUser) {
-        activeFilters.push(`Advisor: ${wbUser.name}`);
+        const displayName = `${wbUser.first_name || wbUser.name?.split(' ')[0] || 'Unknown'} ${wbUser.last_name || wbUser.name?.split(' ').slice(1).join(' ') || ''}`.trim();
+        activeFilters.push(`Advisor: ${displayName}`);
       }
     }
     
