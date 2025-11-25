@@ -18,9 +18,11 @@ const availableReports: Report[] = [
   { id: '4', name: 'Client Inception Report', path: '/reporting/client-inception' },
   { id: '5', name: 'Client Segmentation Report', path: '/reporting/client-segmentation' },
   { id: '6', name: 'Geographic Footprint', path: '/reporting/geographic-footprint' },
-  { id: '7', name: 'Net New Assets', path: '/reporting/net-new-assets' },
+  // Commented out per user request - 11/25/2025
+  // { id: '7', name: 'Net New Assets', path: '/reporting/net-new-assets' },
   { id: '8', name: 'Referral Analytics', path: '/reporting/referral-analytics' },
-  { id: '9', name: 'Valuation Insights', path: '/reporting/valuation-insights' },
+  // Commented out per user request - 11/25/2025
+  // { id: '9', name: 'Valuation Insights', path: '/reporting/valuation-insights' },
 ];
 
 type ReportSearchDialogProps = {

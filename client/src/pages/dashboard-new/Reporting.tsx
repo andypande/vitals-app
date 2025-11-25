@@ -20,7 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Toggle } from "@/components/ui/toggle";
 import { useLocation } from "react-router-dom";
 
-type ReportType = "birthday" | "age-demographics" | "clients-aum-overtime" | "referral" | "client-inception" | "net-new-assets" | "client-segmentation" | "revenue-vs-expense" | "geographic-footprint";
+// Commented out per user request - 11/25/2025: "net-new-assets", "revenue-vs-expense"
+type ReportType = "birthday" | "age-demographics" | "clients-aum-overtime" | "referral" | "client-inception" | "client-segmentation" | "geographic-footprint"; // | "net-new-assets" | "revenue-vs-expense";
 type IntegrationSource = "Wealthbox" | "Orion" | "Manual";
 type ViewMode = "card" | "table";
 
@@ -155,23 +156,24 @@ const Reporting = () => {
           ],
           comingSoon: true
         },
-        {
-          id: "net-new-assets" as ReportType,
-          name: "Net New Assets",
-          description: "Track growth of assets under management over time",
-          url: "https://preview--advisor-growth-metrics.lovable.app/",
-          integrations: [
-            { 
-              source: "Wealthbox" as IntegrationSource, 
-              status: "not-connected" as const
-            },
-            { 
-              source: "Orion" as IntegrationSource, 
-              status: "connected" as const, 
-              lastSync: "2025-05-02" 
-            }
-          ]
-        },
+        // Commented out per user request - 11/25/2025
+        // {
+        //   id: "net-new-assets" as ReportType,
+        //   name: "Net New Assets",
+        //   description: "Track growth of assets under management over time",
+        //   url: "https://preview--advisor-growth-metrics.lovable.app/",
+        //   integrations: [
+        //     { 
+        //       source: "Wealthbox" as IntegrationSource, 
+        //       status: "not-connected" as const
+        //     },
+        //     { 
+        //       source: "Orion" as IntegrationSource, 
+        //       status: "connected" as const, 
+        //       lastSync: "2025-05-02" 
+        //     }
+        //   ]
+        // },
         {
           id: "referral" as ReportType,
           name: "Referral Analytics",
@@ -189,24 +191,25 @@ const Reporting = () => {
             }
           ]
         },
-        {
-          id: "revenue-vs-expense" as ReportType,
-          name: "Revenue vs Client Expense",
-          description: "Compare client revenue against expenses over time",
-          url: "https://preview--client-expenditure-inspector.lovable.app/",
-          integrations: [
-            { 
-              source: "Wealthbox" as IntegrationSource, 
-              status: "connected" as const, 
-              lastSync: "2025-05-02" 
-            },
-            { 
-              source: "Orion" as IntegrationSource, 
-              status: "connected" as const, 
-              lastSync: "2025-05-02" 
-            }
-          ]
-        }
+        // Commented out per user request - 11/25/2025
+        // {
+        //   id: "revenue-vs-expense" as ReportType,
+        //   name: "Revenue vs Client Expense",
+        //   description: "Compare client revenue against expenses over time",
+        //   url: "https://preview--client-expenditure-inspector.lovable.app/",
+        //   integrations: [
+        //     { 
+        //       source: "Wealthbox" as IntegrationSource, 
+        //       status: "connected" as const, 
+        //       lastSync: "2025-05-02" 
+        //     },
+        //     { 
+        //       source: "Orion" as IntegrationSource, 
+        //       status: "connected" as const, 
+        //       lastSync: "2025-05-02" 
+        //     }
+        //   ]
+        // }
       ].sort((a, b) => a.name.localeCompare(b.name)); // Sort reports alphabetically by name
 
       const storedFavorites = localStorage.getItem("favoriteReports");

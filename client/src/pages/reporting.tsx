@@ -109,24 +109,25 @@ const initialMockReports: Report[] = [
     integrations: ["Data Sources"],
     isFavorite: false,
   },
-  {
-    id: "10",
-    name: "Net New Assets",
-    routePath: "net-new-assets",
-    description: "Track growth of assets under management over time.",
-    integrations: ["Data Sources"],
-    status: "Coming Soon",
-    isFavorite: false,
-  },
-  {
-    id: "11",
-    name: "Revenue vs Client Expense",
-    routePath: "revenue-vs-client-expense",
-    description: "Compare client revenue against expenses over time.",
-    integrations: ["Data Sources"],
-    status: "Coming Soon",
-    isFavorite: false,
-  }
+  // Commented out per user request - 11/25/2025
+  // {
+  //   id: "10",
+  //   name: "Net New Assets",
+  //   routePath: "net-new-assets",
+  //   description: "Track growth of assets under management over time.",
+  //   integrations: ["Data Sources"],
+  //   status: "Coming Soon",
+  //   isFavorite: false,
+  // },
+  // {
+  //   id: "11",
+  //   name: "Revenue vs Client Expense",
+  //   routePath: "revenue-vs-client-expense",
+  //   description: "Compare client revenue against expenses over time.",
+  //   integrations: ["Data Sources"],
+  //   status: "Coming Soon",
+  //   isFavorite: false,
+  // }
 ];
 
 export default function Reporting() {
