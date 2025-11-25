@@ -8,7 +8,8 @@ import { PerformanceChart } from "./PerformanceChart";
 import { toast } from "@/hooks/use-toast";
 import { Toggle } from "@/components/ui/toggle";
 
-type ReportType = "clients-aum-overtime" | "category" | "birthday" | "net-new-assets" | "client-segmentation" | "revenue-vs-expense";
+// Commented out per user request - 11/25/2025: "net-new-assets", "revenue-vs-expense"
+type ReportType = "clients-aum-overtime" | "category" | "birthday" | "client-segmentation"; // | "net-new-assets" | "revenue-vs-expense";
 
 interface ReportOption {
   id: ReportType;
@@ -24,8 +25,9 @@ export const ReportContainer = () => {
     { id: "clients-aum-overtime" as ReportType, name: "Book Development", favorited: false },
     { id: "category" as ReportType, name: "Sales by Category", favorited: false },
     { id: "client-segmentation" as ReportType, name: "Client Segmentation Report", favorited: false },
-    { id: "net-new-assets" as ReportType, name: "Net New Assets", favorited: false },
-    { id: "revenue-vs-expense" as ReportType, name: "Revenue vs Client Expense", favorited: false }
+    // Commented out per user request - 11/25/2025
+    // { id: "net-new-assets" as ReportType, name: "Net New Assets", favorited: false },
+    // { id: "revenue-vs-expense" as ReportType, name: "Revenue vs Client Expense", favorited: false }
   ].sort((a, b) => a.name.localeCompare(b.name))); // Sort alphabetically
 
   // Initialize favorites from localStorage safely
@@ -203,15 +205,16 @@ export const ReportContainer = () => {
           <div className="h-[300px]">
             <PerformanceChart />
           </div>
-        ) : reportType === "net-new-assets" ? (
-          <div className="h-[300px] w-full">
-            <iframe 
-              src="https://preview--advisor-growth-metrics.lovable.app/" 
-              className="w-full h-full border-none"
-              title="Net New Assets Report"
-              loading="lazy"
-            />
-          </div>
+        // Commented out per user request - 11/25/2025
+        // ) : reportType === "net-new-assets" ? (
+        //   <div className="h-[300px] w-full">
+        //     <iframe 
+        //       src="https://preview--advisor-growth-metrics.lovable.app/" 
+        //       className="w-full h-full border-none"
+        //       title="Net New Assets Report"
+        //       loading="lazy"
+        //     />
+        //   </div>
         ) : reportType === "client-segmentation" ? (
           <div className="h-[300px] w-full">
             <iframe 
@@ -221,15 +224,16 @@ export const ReportContainer = () => {
               loading="lazy"
             />
           </div>
-        ) : reportType === "revenue-vs-expense" ? (
-          <div className="h-[300px] w-full">
-            <iframe 
-              src="https://preview--client-expenditure-inspector.lovable.app/" 
-              className="w-full h-full border-none"
-              title="Revenue vs Client Expense"
-              loading="lazy"
-            />
-          </div>
+        // Commented out per user request - 11/25/2025
+        // ) : reportType === "revenue-vs-expense" ? (
+        //   <div className="h-[300px] w-full">
+        //     <iframe 
+        //       src="https://preview--client-expenditure-inspector.lovable.app/" 
+        //       className="w-full h-full border-none"
+        //       title="Revenue vs Client Expense"
+        //       loading="lazy"
+        //     />
+        //   </div>
         ) : (
           <div className="h-[300px] w-full">
             <iframe 
