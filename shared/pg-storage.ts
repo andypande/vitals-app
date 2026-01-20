@@ -54,6 +54,13 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   getUsersByOrganization(organizationId: number): Promise<User[]>;
+  getUsersByHomeOffice(homeOfficeId: number): Promise<User[]>;
+  getAdvisorsByFirm(firmId: number): Promise<User[]>;
+  getAdvisorsByHomeOffice(homeOfficeId: number): Promise<User[]>;
+  getUsersByRoleAndOrganization(role: string, organizationId: number): Promise<User[]>;
+  getFirmsByHomeOffice(homeOfficeId: number): Promise<Organization[]>;
+  getAdvisorMetrics(advisorId: number): Promise<any>;
+  getClientDemographics(advisorId: number): Promise<any>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, user: Partial<User>): Promise<User | undefined>;
 
@@ -206,6 +213,142 @@ export class PostgresStorage implements IStorage {
       .where(eq(users.id, id))
       .returning();
     return results[0];
+  }
+
+  async getUsersByHomeOffice(homeOfficeId: number): Promise<User[]> {
+    // Get all firms under this home office
+    const firms = await db
+      .select()
+      .from(organizations)
+      .where(
+        and(
+          eq(organizations.parentId, homeOfficeId),
+          eq(organizations.type, "firm")
+        )
+      );
+    
+    if (firms.length === 0) {
+      return [];
+    }
+
+    // Get all users from those firms
+    const firmIds = firms.map(f => f.id);
+    const allUsers: User[] = [];
+    
+    for (const firmId of firmIds) {
+      const firmUsers = await this.getUsersByOrganization(firmId);
+      allUsers.push(...firmUsers);
+    }
+    
+    return allUsers;
+  }
+
+  async getAdvisorsByFirm(firmId: number): Promise<User[]> {
+    // Get users with advisor role in the specified firm
+    const results = await db
+      .select()
+      .from(users)
+      .where(eq(users.organizationId, firmId));
+    
+    // Filter for advisor role (roleId 3 typically)
+    // This should ideally query the roles table, but using simplified approach
+    return results.filter(user => user.roleId === 3 || user.roleId === 4);
+  }
+
+  async getAdvisorsByHomeOffice(homeOfficeId: number): Promise<User[]> {
+    // Get all firms under this home office
+    const firms = await db
+      .select()
+      .from(organizations)
+      .where(
+        and(
+          eq(organizations.parentId, homeOfficeId),
+          eq(organizations.type, "firm")
+        )
+      );
+    
+    if (firms.length === 0) {
+      return [];
+    }
+
+    // Get all advisors from those firms
+    const allAdvisors: User[] = [];
+    
+    for (const firm of firms) {
+      const advisors = await this.getAdvisorsByFirm(firm.id);
+      allAdvisors.push(...advisors);
+    }
+    
+    return allAdvisors;
+  }
+
+  async getUsersByRoleAndOrganization(role: string, organizationId: number): Promise<User[]> {
+    // First get the role by name
+    const roleResults = await db
+      .select()
+      .from(roles)
+      .where(eq(roles.name, role));
+    
+    if (roleResults.length === 0) {
+      return [];
+    }
+
+    const roleId = roleResults[0].id;
+    
+    // Get users with that role in the organization
+    const results = await db
+      .select()
+      .from(users)
+      .where(
+        and(
+          eq(users.roleId, roleId),
+          eq(users.organizationId, organizationId)
+        )
+      );
+    
+    return results;
+  }
+
+  async getFirmsByHomeOffice(homeOfficeId: number): Promise<Organization[]> {
+    return db
+      .select()
+      .from(organizations)
+      .where(
+        and(
+          eq(organizations.parentId, homeOfficeId),
+          eq(organizations.type, "firm")
+        )
+      );
+  }
+
+  async getAdvisorMetrics(advisorId: number): Promise<any> {
+    // Stub implementation - returns placeholder metrics
+    // In a real implementation, this would aggregate data from clients, portfolios, etc.
+    const clientsData = await this.getClientsByAdvisor(advisorId);
+    
+    const totalClients = clientsData.length;
+    const totalAum = clientsData.reduce((sum, client) => sum + (client.accountValue || 0), 0);
+    const totalRevenue = totalAum * 0.01; // Simplified calculation
+    
+    return {
+      totalClients,
+      totalAum,
+      totalRevenue,
+      averageClientValue: totalClients > 0 ? totalAum / totalClients : 0,
+    };
+  }
+
+  async getClientDemographics(advisorId: number): Promise<any> {
+    // Stub implementation - returns placeholder demographics
+    // In a real implementation, this would analyze client data
+    const clientsData = await this.getClientsByAdvisor(advisorId);
+    
+    return {
+      totalClients: clientsData.length,
+      ageGroups: {},
+      stateDistribution: {},
+      segmentDistribution: {},
+    };
   }
 
   async getRole(id: number): Promise<Role | undefined> {

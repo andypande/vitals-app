@@ -961,7 +961,7 @@ app.get(
                 console.log(`Updating user: ${existingUser.email}`);
                 return await storage.updateUser(existingUser.id, {
                   wealthboxUserId: wealthboxUser.id,
-                  firstNmae: wealthboxUser.name.split(" ")[0],
+                  firstName: wealthboxUser.name.split(" ")[0],
                   lastName: wealthboxUser.name.split(" ")[1] || "",
                   updatedAt: new Date(),
                 });

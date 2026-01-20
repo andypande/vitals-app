@@ -6,6 +6,150 @@ export interface AgeGroup {
   colorClass: string;
 }
 
+// --- START: Added for Advisor Growth Metric ---
+export interface HouseholdNetNew {
+  id: string;
+  clientName: string;
+  segmentation: 'Platinum' | 'Gold' | 'Silver';
+  startingAUM: number;
+  distributions: number;
+  contributions: number;
+  transfers: number;
+  netChange: number;
+  endingAUM: number;
+  status: 'Increasing' | 'Decreasing' | 'Stable';
+}
+
+export interface NnaOverviewMetrics {
+  startingAUM: number;
+  distributions: number;
+  contributions: number;
+  netTransfers: number;
+  totalNetNewAssets: number;
+  totalClients: number;
+  newClients: number;
+  closedClients: number;
+  netNewAssets: number;
+}
+
+export interface NnaChartDataPoint {
+  month: string;
+  netNewAssets: number;
+  newAssets: number;
+  closedAssets: number;
+}
+
+export interface MonthlyHouseholdSummary {
+  month: string;
+  startingAUM: number;
+  contributions: number;
+  distributions: number;
+  netTransfers: number;
+  endingAUM: number;
+  opened: number;
+  closed: number;
+  netNew: number;
+}
+
+export function getMockHouseholdNetNew(statusFilter?: string): HouseholdNetNew[] {
+  const households: HouseholdNetNew[] = [
+    {
+      id: '1',
+      clientName: 'Smith Family Trust',
+      segmentation: 'Platinum',
+      startingAUM: 5000000,
+      distributions: -200000,
+      contributions: 500000,
+      transfers: 100000,
+      netChange: 400000,
+      endingAUM: 5400000,
+      status: 'Increasing',
+    },
+    {
+      id: '2',
+      clientName: 'Johnson Retirement Fund',
+      segmentation: 'Gold',
+      startingAUM: 2000000,
+      distributions: -150000,
+      contributions: 100000,
+      transfers: -50000,
+      netChange: -100000,
+      endingAUM: 1900000,
+      status: 'Decreasing',
+    },
+    {
+      id: '3',
+      clientName: 'Williams Estate',
+      segmentation: 'Platinum',
+      startingAUM: 8000000,
+      distributions: -300000,
+      contributions: 300000,
+      transfers: 0,
+      netChange: 0,
+      endingAUM: 8000000,
+      status: 'Stable',
+    },
+  ];
+  
+  if (statusFilter && statusFilter !== 'all') {
+    return households.filter(h => h.status.toLowerCase() === statusFilter.toLowerCase());
+  }
+  
+  return households;
+}
+
+export function getMockNnaOverviewMetrics(): NnaOverviewMetrics {
+  return {
+    startingAUM: 45000000,
+    distributions: -1500000,
+    contributions: 2000000,
+    netTransfers: 500000,
+    totalNetNewAssets: 1000000,
+    totalClients: 450,
+    newClients: 45,
+    closedClients: 12,
+    netNewAssets: 12500000,
+  };
+}
+
+export function getMockNnaChartData(): NnaChartDataPoint[] {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months.map((month, index) => ({
+    month,
+    netNewAssets: Math.floor(Math.random() * 2000000) + 500000,
+    newAssets: Math.floor(Math.random() * 2500000) + 1000000,
+    closedAssets: Math.floor(Math.random() * 500000) + 100000,
+  }));
+}
+
+export function getHouseholdTrendCounts() {
+  return {
+    opened: 145,
+    closed: 32,
+    netNew: 113,
+    increasing: 85,
+    decreasing: 32,
+    stable: 28,
+    all: 145,
+  };
+}
+
+export function getMockMonthlyHouseholdSummary(month?: string): MonthlyHouseholdSummary[] {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months.map((m) => ({
+    month: m,
+    startingAUM: Math.floor(Math.random() * 5000000) + 40000000,
+    contributions: Math.floor(Math.random() * 500000) + 100000,
+    distributions: -(Math.floor(Math.random() * 300000) + 50000),
+    netTransfers: Math.floor(Math.random() * 200000) - 100000,
+    endingAUM: Math.floor(Math.random() * 5000000) + 40000000,
+    opened: Math.floor(Math.random() * 20) + 5,
+    closed: Math.floor(Math.random() * 10) + 1,
+    netNew: Math.floor(Math.random() * 15) + 3,
+  }));
+}
+// --- END: Added for Advisor Growth Metric ---
+
 // --- START: Added for Advisory Firm Dashboard ---
 export interface StaffMember {
   id: string;

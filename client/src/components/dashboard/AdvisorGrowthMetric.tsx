@@ -72,11 +72,12 @@ const getTextColor = (value: number): string => {
     return 'text-gray-500';
 };
 
-const getStatusBadgeVariant = (status: 'Increasing' | 'Decreasing'): 'destructive' | 'secondary' | 'outline' | 'default' => {
+const getStatusBadgeVariant = (status: 'Increasing' | 'Decreasing' | 'Stable'): 'destructive' | 'secondary' | 'outline' | 'default' => {
     switch (status) {
       case 'Decreasing': return 'destructive';
       // Use 'default' as base, color override happens in className
       case 'Increasing': return 'default';
+      case 'Stable': return 'secondary';
       default: return 'secondary';
     }
 };

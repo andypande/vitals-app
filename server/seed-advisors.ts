@@ -3,8 +3,8 @@ import { storage } from "./storage";
 
 async function seedAdvisors() {
   try {
-    // Get the client admin's organization (firm)
-    const clientAdmin = await storage.getUserByUsername("clientadmin");
+    // Get the client admin's organization (firm) - using email instead of username
+    const clientAdmin = await storage.getUserByEmail("clientadmin@example.com");
     if (!clientAdmin) {
       console.error("Client admin user not found");
       return;
@@ -13,100 +13,110 @@ async function seedAdvisors() {
     const organizationId = clientAdmin.organizationId;
     console.log(`Adding advisors to organization ID: ${organizationId}`);
 
-    // Create dummy advisors
+    // Create dummy advisors - using new schema
     const advisors = [
       {
-        username: "advisor1",
-        password: "password",
         email: "advisor1@example.com",
-        fullName: "Michael Johnson",
-        role: "advisor",
+        firstName: "Michael",
+        lastName: "Johnson",
+        passwordHash: "password",
+        roleId: 3, // advisor role
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor2",
-        password: "password",
         email: "advisor2@example.com",
-        fullName: "Jessica Williams",
-        role: "advisor",
+        firstName: "Jessica",
+        lastName: "Williams",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor3",
-        password: "password",
         email: "advisor3@example.com",
-        fullName: "David Brown",
-        role: "advisor",
+        firstName: "David",
+        lastName: "Brown",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor4",
-        password: "password",
         email: "advisor4@example.com",
-        fullName: "Emma Davis",
-        role: "advisor",
+        firstName: "Emma",
+        lastName: "Davis",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor5",
-        password: "password",
         email: "advisor5@example.com",
-        fullName: "Christopher Wilson",
-        role: "advisor",
+        firstName: "Christopher",
+        lastName: "Wilson",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor6",
-        password: "password",
         email: "advisor6@example.com",
-        fullName: "Olivia Martinez",
-        role: "advisor",
+        firstName: "Olivia",
+        lastName: "Martinez",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor7",
-        password: "password",
         email: "advisor7@example.com",
-        fullName: "James Anderson",
-        role: "advisor",
+        firstName: "James",
+        lastName: "Anderson",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor8",
-        password: "password",
         email: "advisor8@example.com",
-        fullName: "Sophia Taylor",
-        role: "advisor",
+        firstName: "Sophia",
+        lastName: "Taylor",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor9",
-        password: "password",
         email: "advisor9@example.com",
-        fullName: "Daniel Moore",
-        role: "advisor",
+        firstName: "Daniel",
+        lastName: "Moore",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       },
       {
-        username: "advisor10",
-        password: "password",
         email: "advisor10@example.com",
-        fullName: "Ava Jackson",
-        role: "advisor",
+        firstName: "Ava",
+        lastName: "Jackson",
+        passwordHash: "password",
+        roleId: 3,
+        status: "active" as const,
         organizationId
       }
     ];
 
     // Add each advisor to the database
     for (const advisorData of advisors) {
-      const existingUser = await storage.getUserByUsername(advisorData.username);
+      const existingUser = await storage.getUserByEmail(advisorData.email);
       if (existingUser) {
-        console.log(`User ${advisorData.username} already exists, skipping`);
+        console.log(`User ${advisorData.email} already exists, skipping`);
         continue;
       }
       
       const newUser = await storage.createUser(advisorData);
-      console.log(`Created advisor: ${newUser.fullName} (${newUser.username})`);
+      console.log(`Created advisor: ${newUser.firstName} ${newUser.lastName} (${newUser.email})`);
     }
 
     console.log("Finished seeding advisors");
