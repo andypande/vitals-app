@@ -80,8 +80,9 @@ export class MemStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
+    // Username field doesn't exist in current schema, using email instead
     return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+      (user) => user.email === username,
     );
   }
 
@@ -99,23 +100,16 @@ export class MemStorage implements IStorage {
     const id = this.currentIds.users++;
     const newUser: User = {
       id,
-      username: user.username,
-      password: user.password || null,
       email: user.email,
-      fullName: user.fullName,
-      role: user.role,
+      passwordHash: user.passwordHash || null,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      roleId: user.roleId || null,
+      status: user.status || "active",
+      wealthboxUserId: user.wealthboxUserId || null,
       createdAt: new Date(),
-      organizationId: user.organizationId,
-      wealthboxConnected: false,
-      wealthboxToken: null,
-      wealthboxRefreshToken: null,
-      wealthboxTokenExpiry: null,
-      googleId: null,
-      googleToken: null,
-      googleRefreshToken: null,
-      microsoftId: null,
-      microsoftToken: null,
-      microsoftRefreshToken: null,
+      updatedAt: new Date(),
+      organizationId: user.organizationId || null,
     };
     this.users.set(id, newUser);
     return newUser;
