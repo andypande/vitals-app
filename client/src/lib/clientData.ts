@@ -6,6 +6,86 @@ export interface AgeGroup {
   colorClass: string;
 }
 
+// --- START: Added for Advisor Growth Metric ---
+export interface HouseholdNetNew {
+  totalNetNew: number;
+  netNewThisMonth: number;
+  netNewThisQuarter: number;
+  netNewThisYear: number;
+  trendPercentage: number;
+  trendDirection: 'up' | 'down' | 'neutral';
+}
+
+export interface NnaOverviewMetrics {
+  totalClients: number;
+  newClients: number;
+  closedClients: number;
+  netNewAssets: number;
+}
+
+export interface NnaChartDataPoint {
+  month: string;
+  netNewAssets: number;
+  newAssets: number;
+  closedAssets: number;
+}
+
+export interface MonthlyHouseholdSummary {
+  month: string;
+  opened: number;
+  closed: number;
+  netNew: number;
+}
+
+export function getMockHouseholdNetNew(): HouseholdNetNew {
+  return {
+    totalNetNew: 145,
+    netNewThisMonth: 12,
+    netNewThisQuarter: 35,
+    netNewThisYear: 145,
+    trendPercentage: 8.5,
+    trendDirection: 'up',
+  };
+}
+
+export function getMockNnaOverviewMetrics(): NnaOverviewMetrics {
+  return {
+    totalClients: 450,
+    newClients: 45,
+    closedClients: 12,
+    netNewAssets: 12500000,
+  };
+}
+
+export function getMockNnaChartData(): NnaChartDataPoint[] {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months.map((month, index) => ({
+    month,
+    netNewAssets: Math.floor(Math.random() * 2000000) + 500000,
+    newAssets: Math.floor(Math.random() * 2500000) + 1000000,
+    closedAssets: Math.floor(Math.random() * 500000) + 100000,
+  }));
+}
+
+export function getHouseholdTrendCounts() {
+  return {
+    opened: 145,
+    closed: 32,
+    netNew: 113,
+  };
+}
+
+export function getMockMonthlyHouseholdSummary(): MonthlyHouseholdSummary[] {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months.map((month) => ({
+    month,
+    opened: Math.floor(Math.random() * 20) + 5,
+    closed: Math.floor(Math.random() * 10) + 1,
+    netNew: Math.floor(Math.random() * 15) + 3,
+  }));
+}
+// --- END: Added for Advisor Growth Metric ---
+
 // --- START: Added for Advisory Firm Dashboard ---
 export interface StaffMember {
   id: string;
