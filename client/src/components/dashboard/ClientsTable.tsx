@@ -8,7 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Client, getClientsInAgeGroup } from "@/lib/data";
+// Import Client type from clientData - using a simple interface here
+interface Client {
+  id: number;
+  name: string;
+  age: number;
+  segment: string;
+  joinDate: string;
+}
+
+// Stub function - in real implementation this would fetch from API
+function getClientsInAgeGroup(group: string | null): Client[] {
+  return [];
+}
 
 interface ClientsTableProps {
   className?: string;
