@@ -4,10 +4,10 @@ import type { Config } from "drizzle-kit";
 export default {
   schema: "./schema.ts",
   out: "./drizzle",
-  driver: "pg",
+  dialect: "postgresql",
   dbCredentials: {
     // Use environment variables for credentials
-    connectionString:
+    url:
       process.env.DATABASE_URL ||
       "postgresql://neondb_owner:npg_aUXJv9fEBcp8@ep-holy-boat-a48nuqqm.us-east-1.aws.neon.tech/neondb?sslmode=require",
   },
